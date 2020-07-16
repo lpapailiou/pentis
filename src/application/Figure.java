@@ -8,12 +8,38 @@ public class Figure {
     private static Random random = new Random();
     static final int ITEMS = 5;
 
-    public static int[][] getFigure() {
+    public static int[][] getFigure(int boardWith) {
         int[][] figure = new int[ITEMS][2];
-        figure[0][1] = ITEMS/2;
         figure = createFigure(figure);
         adjust(figure);
+        center(figure, boardWith);
         return figure;
+    }
+
+    private static void center(int[][] figure, int width) {
+        int offset = getOffset(figure, width);
+        for (int i = 0; i < figure.length; i++) {
+            figure[i][1] = figure[i][1] + offset;
+        }
+    }
+
+    private static int getOffset(int[][] figure, int width) {
+        int min = width;
+        int max = -10;
+        int offset = 0;
+
+        for (int i = 0; i < figure.length; i++) {
+            if (figure[i][1] < min) {
+                min = figure[i][1];
+            }
+            if (figure[i][1] > max) {
+                max = figure[i][1];
+            }
+        }
+
+        int figWidth = max - min;
+        offset = (width/2) - figWidth;
+        return offset;
     }
 
     private static void adjust(int[][] figure) {

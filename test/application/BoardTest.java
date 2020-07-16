@@ -18,19 +18,26 @@ public class BoardTest {
 
     void testMove() {
         int testWidth = 10;
-        int testHeight = 5;
+        int testHeight = 10;
         int[][] testBoard = new int[testHeight][testWidth];
         int[] direction = {1,0};
-        int[][] figure = getFigure();
+        int[][] figure = getFigure(testWidth);
         System.out.println(Arrays.deepToString(figure));
 
         print(testBoard);
-        for (int i = 0; i < 10; i++) {
-            moveFigure(testBoard, figure, direction);
+        moveDown(testBoard, figure, direction);
+        figure = getFigure(testWidth);
+        moveDown(testBoard, figure, direction);
+    }
+
+    void moveDown(int[][] testBoard, int[][] figure, int[] direction) {
+        boolean canMove = true;
+        while (canMove) {
+            canMove = moveFigure(testBoard, figure, direction);
             print(testBoard);
         }
-
     }
+
 
     void testBoard() {
         int testWidth = 5;

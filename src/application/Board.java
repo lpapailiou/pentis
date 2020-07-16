@@ -1,6 +1,8 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Board {
 
@@ -10,46 +12,50 @@ public class Board {
 
     public static boolean moveFigure(int[][] board, int[][] figure, int direction[]) {
 
-        // TODO: method ugly; should stop one step earlier
-
         int[][] oldBoard = Arrays.copyOf(board, board.length);
-
         int[][] oldFigure = Arrays.copyOf(figure, figure.length);
 
         for (int i = 0; i < figure.length; i++) {
-            int oldRow = figure[i][0];
-            int oldCol = figure[i][1];
-            figure[i] = new int[]{oldRow + direction[0], oldCol + direction[1]};
+            figure[i] = new int[]{figure[i][0] + direction[0], figure[i][1] + direction[1]};
         }
 
-        boolean reset = false;
+        boolean canMove = true;
+        boolean isStuck = false;
 
         for (int i = 0; i < figure.length; i++) {
-            int oldRow = figure[i][0]- direction[0];
-            int oldCol = figure[i][1]- direction[1];
-            if (isPositionFree(board, figure[i])) {
-                move(board, figure[i]);
-                boolean coordToBeCleared = true;
-                for (int[] f: figure) {
-                    if (f[0] == oldFigure[i][0] && f[1] == oldFigure[i][1]) {
-                        coordToBeCleared = false;
-                    }
+            if (!isPositionFree(board, figure[i])) {
+                canMove = false;
+                if (direction[0] == 1) {
+                    isStuck = true;
                 }
-
-                if (oldRow >= 0
-                        && oldRow < board.length
-                        && oldCol >= 0
-                        && oldCol < board[i].length
-                        && coordToBeCleared) {
-                    board[oldRow][oldCol] = 0;
-                }
-
-            } else if (direction[0] == 1) {
-                reset = true;
             }
         }
 
-        if (reset) {
+        if (canMove) {
+            boolean coordToBeCleared = true;
+            for (int[] oldF : oldFigure) {
+                boolean exists = false;
+                for (int[] newF : figure) {
+                    if (newF[0] == oldF[0] && newF[1] == oldF[1]) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    if (oldF[0] >= 0
+                            && oldF[0] < board.length
+                            && oldF[1] >= 0
+                            && oldF[1] < board[oldF[0]].length
+                            && coordToBeCleared) {
+                        board[oldF[0]][oldF[1]] = 0;
+                    }
+                }
+            }
+
+            for (int i = 0; i < figure.length; i++) {
+                move(board, figure[i]);
+            }
+
+        } else if (isStuck) {
             setFigure(board, oldBoard);
             return false;
         }
