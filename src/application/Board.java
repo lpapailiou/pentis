@@ -12,6 +12,8 @@ public class Board {
 
     public static boolean moveFigure(int[][] board, int[][] figure, int direction[]) {
 
+        stateCheck(board);
+
         int[][] oldBoard = Arrays.copyOf(board, board.length);
         int[][] oldFigure = Arrays.copyOf(figure, figure.length);
 
@@ -32,7 +34,6 @@ public class Board {
         }
 
         if (canMove) {
-            boolean coordToBeCleared = true;
             for (int[] oldF : oldFigure) {
                 boolean exists = false;
                 for (int[] newF : figure) {
@@ -44,8 +45,7 @@ public class Board {
                     if (oldF[0] >= 0
                             && oldF[0] < board.length
                             && oldF[1] >= 0
-                            && oldF[1] < board[oldF[0]].length
-                            && coordToBeCleared) {
+                            && oldF[1] < board[oldF[0]].length) {
                         board[oldF[0]][oldF[1]] = 0;
                     }
                 }
@@ -122,13 +122,13 @@ public class Board {
             if (i != 0) {
                 board[i] = board[i - 1];
             } else {
-                board[i] = new int[WIDTH];
+                board[i] = new int[board[i].length];
             }
         }
     }
 
     public static void reset(int board[][]) {
-        board = new int[HEIGHT][WIDTH];
+        board = new int[board.length][board[0].length];
     }
 
 }

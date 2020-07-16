@@ -1,12 +1,13 @@
 package application;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Figure {
 
     private static Random random = new Random();
     static final int ITEMS = 5;
+
+    // TODO: implement method to rotate figure
 
     public static int[][] getFigure(int boardWith) {
         int[][] figure = new int[ITEMS][2];
@@ -80,10 +81,6 @@ public class Figure {
             boolean success = false;
             while (!success) {
                 success = addItem(figure, i);
-                if (success) {
-                    //System.out.println("new item set at " + i);
-                    //System.out.println(Arrays.toString(figure[i]));
-                }
             }
         }
         return figure;
@@ -92,11 +89,9 @@ public class Figure {
     private static boolean addItem(int[][] figure, int i) {
         int index = random.nextInt(i);
         int[] nextItemToJoin = new int[] {figure[index][0], figure[index][1]};
-        //System.out.println("item to copy from: " + Arrays.toString(figure[index]));
         int pos[] = getNext(nextItemToJoin);
         if (!exists(figure, pos)) {
             figure[i] = pos;
-            //System.out.println("item found: " + Arrays.toString(pos));
             return true;
         }
         return false;

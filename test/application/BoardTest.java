@@ -13,33 +13,43 @@ public class BoardTest {
 
     @Test
     void test() {
-        testMove();
+        moveFigureDownTest();
     }
 
-    void testMove() {
-        int testWidth = 10;
-        int testHeight = 10;
+    void moveFigureDownTest() {
+        int testWidth = 5;
+        int testHeight = 4;
         int[][] testBoard = new int[testHeight][testWidth];
+        testBoard[testHeight-1][0] = 1;
         int[] direction = {1,0};
         int[][] figure = getFigure(testWidth);
-        System.out.println(Arrays.deepToString(figure));
 
         print(testBoard);
         moveDown(testBoard, figure, direction);
-        figure = getFigure(testWidth);
-        moveDown(testBoard, figure, direction);
     }
 
-    void moveDown(int[][] testBoard, int[][] figure, int[] direction) {
+    boolean moveDown(int[][] testBoard, int[][] figure, int[] direction) {
         boolean canMove = true;
+        int counter = 0;
+        boolean endGame = false;
         while (canMove) {
+            counter++;
             canMove = moveFigure(testBoard, figure, direction);
             print(testBoard);
+            if (counter == 1 && !canMove) {
+                endGame = true;
+                System.out.println("game ends here");
+            }
         }
+        if (!endGame) {
+            figure = figure = getFigure(testBoard[0].length);
+            moveDown(testBoard, figure, direction);
+        }
+        return endGame;
     }
 
 
-    void testBoard() {
+    void removeRowTest() {
         int testWidth = 5;
         int testHeight = 6;
         int[][] testBoard = new int[testHeight][testWidth];
