@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 public enum ColorScheme {
 
-    LIGHT_MODE(Color.WHITE, Color.LIGHTBLUE, Color.LIGHTSALMON, Color.GRAY, Color.BLACK, Color.FLORALWHITE),
-    DARK_MODE(Color.BLACK, Color.AQUA, Color.FUCHSIA, Color.GRAY, Color.LIME, Color.DARKGRAY);
+    LIGHT_MODE(Color.WHITE, Color.LIGHTBLUE, Color.LIGHTSALMON, Color.LIGHTGRAY, Color.BLACK, Color.FLORALWHITE),
+    DARK_MODE(Color.BLACK, Color.AQUA, Color.FUCHSIA, Color.GRAY, Color.LIME, Color.DIMGREY);
 
     public Color appBackground;
     public Color activeShape;

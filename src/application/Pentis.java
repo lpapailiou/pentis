@@ -17,7 +17,9 @@ import static util.Setting.DELAY;
 
 public class Pentis extends Application {
 
-    private int counter;
+    private static int counterLimit = 10;
+    private static int counter;
+    private static Timeline timeline;
 
     public static void main(String[] args) {
         launch(args);
@@ -69,19 +71,26 @@ public class Pentis extends Application {
     }
 
     private void setUpTimer() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(DELAY),  event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(DELAY),  event -> {
             Game.moveByKey(new int[]{1, 0});
             counter++;
-
-            if (counter == 50) {
+            if (counter == counterLimit) {
                 getGame().updateLevel();
                 counter = 0;
-                // TODO: make faster
+                counterLimit = counterLimit + 10;
+                if (timeline != null) {
+                    timeline.setRate(timeline.getRate()+0.05);
+                }
             }
-
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    public static void resetTimeline() {
+        timeline.setRate(1.0);
+        counterLimit = 10;
+        counter = 0;
     }
 
 

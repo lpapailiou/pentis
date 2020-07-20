@@ -102,6 +102,10 @@ public class Game implements Initializable {
         level.setTextFill(COLOR_MODE.textColor);
         pausedLabel.setTextFill(COLOR_MODE.textColor);
 
+        score.setFont(Font.font("Courier New", FontWeight.BOLD, 20));
+        level.setFont(Font.font("Courier New", FontWeight.BOLD, 20));
+        pausedLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 20));
+
         drawBoard();
         drawPreview();
         isPaused = false;
@@ -151,6 +155,7 @@ public class Game implements Initializable {
     }
 
     private static void reset() {
+        Pentis.resetTimeline();
         board = new int[BOARD_HEIGHT][BOARD_WITH];
         shape = getShape(board[0].length);
         nextShape = getShape(board[0].length);
@@ -217,8 +222,8 @@ public class Game implements Initializable {
         Text text;
         if (gameOverText == null) {
             text = new Text();
-            text.setX(20);
-            text.setY(200);
+            text.setX(25);
+            text.setY(220);
             text.setFill(COLOR_MODE.textColor);
             text.setFont(Font.font("Monospace", FontWeight.BOLD, 36));
             gameOverText = text;
@@ -233,8 +238,8 @@ public class Game implements Initializable {
         Text text;
         if (continueText == null) {
             text = new Text();
-            text.setX(20);
-            text.setY(230);
+            text.setX(32);
+            text.setY(250);
             text.setFill(COLOR_MODE.textColor);
             text.setFont(Font.font("Monospace", FontWeight.BOLD, 22));
             continueText = text;
@@ -265,7 +270,7 @@ public class Game implements Initializable {
 
     private static void drawGameOverBackground() {
         context.setFill(COLOR_MODE.appBackground);
-        context.fillRect(0, 150, WIDTH, 110);
+        context.fillRect(0, HEIGHT/2-80, WIDTH, 110);
     }
 
     private static void drawBackground() {
