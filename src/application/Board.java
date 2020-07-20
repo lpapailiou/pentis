@@ -1,18 +1,17 @@
 package application;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Board {
-
-    final static int HEIGHT = 5;
-    final static int WIDTH = 5;
-    public static int[][] board = new int[HEIGHT][WIDTH];
 
     public static boolean moveFigure(int[][] board, int[][] figure, int direction[]) {
 
         stateCheck(board);
+
+        if (isGameOver(board)) {
+            System.out.println("GAME OVER!!!");
+            return false;
+        }
 
         int[][] oldBoard = Arrays.copyOf(board, board.length);
         int[][] oldFigure = Arrays.copyOf(figure, figure.length);
@@ -34,19 +33,10 @@ public class Board {
         }
 
         if (canMove) {
-            for (int[] oldF : oldFigure) {
-                boolean exists = false;
-                for (int[] newF : figure) {
-                    if (newF[0] == oldF[0] && newF[1] == oldF[1]) {
-                        exists = true;
-                    }
-                }
-                if (!exists) {
-                    if (oldF[0] >= 0
-                            && oldF[0] < board.length
-                            && oldF[1] >= 0
-                            && oldF[1] < board[oldF[0]].length) {
-                        board[oldF[0]][oldF[1]] = 0;
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    if (board[i][j] < 0) {
+                        board[i][j] = 0;
                     }
                 }
             }
@@ -55,11 +45,18 @@ public class Board {
                 move(board, figure[i]);
             }
 
-        } else if (isStuck) {
-            setFigure(board, oldBoard);
-            return false;
+        } else {
+            if (Arrays.equals(direction, new int[2])) {
+                return false;
+            }
+            for (int i = 0; i < figure.length; i++) {
+                figure[i] = oldFigure[i];
+            }
+            if (isStuck) {
+                setFigure(board, oldBoard);
+                return false;
+            }
         }
-
         return true;
     }
 
@@ -82,9 +79,11 @@ public class Board {
             return false;
         } else if (target[0] >= board.length) {
             return false;
-        } else if (target[1] < 0 || target[1] >= board[0].length) {
+        } else if (target[1] < 0) {
             return false;
-        } else if (target[0] >= 0 && target[1] >= 0 && board[target[0]][target[1]] == 1) {
+        } else if (target[1] >= board[0].length) {
+            return false;
+        } else if (target[0] >= 0 && board[target[0]][target[1]] == 1) {
             return false;
         }
         return true;
@@ -106,6 +105,15 @@ public class Board {
                 removeRowAt(i, board);
             }
         }
+    }
+
+    public static boolean isGameOver(int[][] board) {
+        for (int i = 0; i < board[0].length; i++) {
+            if (board[0][i] == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isRowFull(int[] row) {
