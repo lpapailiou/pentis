@@ -23,6 +23,19 @@ public class KeyParser {
             case RIGHT:
                 dir = new int[] {0, 1};
                 break;
+            case SPACE:
+                dir = new int[] {-9, 0};
+                break;
+            case P:
+                dir = new int[] {-9, 1};
+                break;
+            case ENTER:
+            case Y:
+                dir = new int[] {-9, 2};
+                break;
+            case N:
+                dir = new int[] {-9, 3};
+                break;
         }
         return dir;
     }

@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static application.Board.*;
-import static application.Figure.getFigure;
-import static application.Figure.getRotatedFigure;
+import static logic.Board.*;
+import static logic.Shape.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +13,7 @@ public class BoardTest {
 
     @Test
     void test() {
-        moveFigureDownTest();
+        moveShapeDownTest();
     }
 
 
@@ -26,19 +25,19 @@ public class BoardTest {
         int[] dirUp = {-1,0};
         int[] dirLeft = {0,-1};
         int[] dirRight = {0,1};
-        int[][] figure = getFigure(testWidth);
+        int[][] shape = getShape(testWidth);
 
         for (int i= 0; i < 5; i++) {
-            moveFigure(testBoard, figure, dirDown);
+            moveShape(testBoard, shape, dirDown);
         }
         print(testBoard);
-        moveFigure(testBoard, figure, dirLeft);
+        moveShape(testBoard, shape, dirLeft);
         print(testBoard);
-        moveFigure(testBoard, figure, dirRight);
+        moveShape(testBoard, shape, dirRight);
         print(testBoard);
-        moveFigure(testBoard, figure, dirDown);
+        moveShape(testBoard, shape, dirDown);
         print(testBoard);
-        moveFigure(testBoard, figure, dirUp);
+        moveShape(testBoard, shape, dirUp);
         print(testBoard);
     }
 
@@ -49,45 +48,45 @@ public class BoardTest {
         int[][] testBoard = new int[testHeight][testWidth];
         int[] dirDown = {1,0};
         int[] dirNone = {0,0};
-        int[][] figure = getFigure(testWidth);
+        int[][] shape = getShape(testWidth);
 
         for (int i= 0; i < 5; i++) {
-            moveFigure(testBoard, figure, dirDown);
+            moveShape(testBoard, shape, dirDown);
         }
         print(testBoard);
-        figure = getRotatedFigure(figure);
-        moveFigure(testBoard, figure, dirNone);
+        shape = getRotateShape(shape);
+        moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        figure = getRotatedFigure(figure);
-        moveFigure(testBoard, figure, dirNone);
+        shape = getRotateShape(shape);
+        moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        figure = getRotatedFigure(figure);
-        moveFigure(testBoard, figure, dirNone);
+        shape = getRotateShape(shape);
+        moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        figure = getRotatedFigure(figure);
-        moveFigure(testBoard, figure, dirNone);
+        shape = getRotateShape(shape);
+        moveShape(testBoard, shape, dirNone);
         print(testBoard);
     }
 
-    void moveFigureDownTest() {
+    void moveShapeDownTest() {
         int testWidth = 5;
         int testHeight = 4;
         int[][] testBoard = new int[testHeight][testWidth];
         testBoard[testHeight-1][0] = 1;
         int[] direction = {1,0};
-        int[][] figure = getFigure(testWidth);
+        int[][] shape = getShape(testWidth);
 
         print(testBoard);
-        moveDown(testBoard, figure, direction);
+        moveDown(testBoard, shape, direction);
     }
 
-    boolean moveDown(int[][] testBoard, int[][] figure, int[] direction) {
+    boolean moveDown(int[][] testBoard, int[][] shape, int[] direction) {
         boolean canMove = true;
         int counter = 0;
         boolean endGame = false;
         while (canMove) {
             counter++;
-            canMove = moveFigure(testBoard, figure, direction);
+            canMove = moveShape(testBoard, shape, direction);
             print(testBoard);
             if (counter == 1 && !canMove) {
                 endGame = true;
@@ -95,8 +94,8 @@ public class BoardTest {
             }
         }
         if (!endGame) {
-            figure = getFigure(testBoard[0].length);
-            moveDown(testBoard, figure, direction);
+            shape = getShape(testBoard[0].length);
+            moveDown(testBoard, shape, direction);
         }
         return endGame;
     }

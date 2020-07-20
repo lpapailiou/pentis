@@ -1,30 +1,32 @@
-package application;
+package logic;
+
+import application.Game;
 
 import java.util.Arrays;
 
+import static application.Game.*;
+import static logic.Shape.copy;
+
 public class Board {
 
-    public static boolean moveFigure(int[][] board, int[][] figure, int direction[]) {
-
-        stateCheck(board);
+    public static boolean moveShape(int[][] board, int[][] shape, int direction[]) {
 
         if (isGameOver(board)) {
-            System.out.println("GAME OVER!!!");
             return false;
         }
 
-        int[][] oldBoard = Arrays.copyOf(board, board.length);
-        int[][] oldFigure = Arrays.copyOf(figure, figure.length);
+        int[][] oldBoard = copy(board);
+        int[][] oldShape = copy(shape);
 
-        for (int i = 0; i < figure.length; i++) {
-            figure[i] = new int[]{figure[i][0] + direction[0], figure[i][1] + direction[1]};
+        for (int i = 0; i < shape.length; i++) {
+            shape[i] = new int[]{shape[i][0] + direction[0], shape[i][1] + direction[1]};
         }
 
         boolean canMove = true;
         boolean isStuck = false;
 
-        for (int i = 0; i < figure.length; i++) {
-            if (!isPositionFree(board, figure[i])) {
+        for (int i = 0; i < shape.length; i++) {
+            if (!isPositionFree(board, shape[i])) {
                 canMove = false;
                 if (direction[0] == 1) {
                     isStuck = true;
@@ -41,26 +43,27 @@ public class Board {
                 }
             }
 
-            for (int i = 0; i < figure.length; i++) {
-                move(board, figure[i]);
+            for (int i = 0; i < shape.length; i++) {
+                move(board, shape[i]);
             }
 
         } else {
             if (Arrays.equals(direction, new int[2])) {
                 return false;
             }
-            for (int i = 0; i < figure.length; i++) {
-                figure[i] = oldFigure[i];
+            for (int i = 0; i < shape.length; i++) {
+                shape[i] = oldShape[i];
             }
             if (isStuck) {
-                setFigure(board, oldBoard);
+                setShape(board, oldBoard);
+                stateCheck(board);
                 return false;
             }
         }
         return true;
     }
 
-    private static void setFigure(int[][] board, int[][] boardToReset) {
+    private static void setShape(int[][] board, int[][] boardToReset) {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = Math.abs(boardToReset[i][j]);
@@ -110,6 +113,7 @@ public class Board {
     public static boolean isGameOver(int[][] board) {
         for (int i = 0; i < board[0].length; i++) {
             if (board[0][i] == 1) {
+                endGame();
                 return true;
             }
         }
@@ -133,6 +137,7 @@ public class Board {
                 board[i] = new int[board[i].length];
             }
         }
+        getGame().updatePoints();
     }
 
     public static void reset(int board[][]) {
