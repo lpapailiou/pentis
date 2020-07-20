@@ -1,5 +1,7 @@
 package application;
 
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,9 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import logic.Board;
-import util.ColorScheme;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -48,6 +49,10 @@ public class Game implements Initializable {
     private static Text gameOverText = null;
     private static Text continueText = null;
 
+    private FadeTransition transition;
+    private FadeTransition transitionGOTitle;
+    private FadeTransition transitionGOText;
+
     private static Font monoFont = new Font("Monospaced", 36);
 
     static {
@@ -81,9 +86,6 @@ public class Game implements Initializable {
     @FXML
     private Pane previewPane;
 
-    @FXML
-    private VBox rightBox;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -93,6 +95,12 @@ public class Game implements Initializable {
         Canvas previewCanvas = new Canvas(PREVIEW_WIDTH, PREVIEW_HEIGHT);
         previewContext = previewCanvas.getGraphicsContext2D();
         previewPane.getChildren().add(previewCanvas);
+
+        scoreLabel.setTextFill(COLOR_MODE.textColor);
+        score.setTextFill(COLOR_MODE.textColor);
+        levelLabel.setTextFill(COLOR_MODE.textColor);
+        level.setTextFill(COLOR_MODE.textColor);
+        pausedLabel.setTextFill(COLOR_MODE.textColor);
 
         drawBoard();
         drawPreview();
@@ -115,7 +123,13 @@ public class Game implements Initializable {
             isPaused = !isPaused;
             if (isPaused) {
                 pausedLabel.setText("paused");
+                transition = new FadeTransition(Duration.millis(700), pausedLabel);
+                transition.setFromValue(1.0);
+                transition.setToValue(0.0);
+                transition.setCycleCount(Animation.INDEFINITE);
+                transition.play();
             } else {
+                transition.stop();
                 pausedLabel.setText("");
             }
         }
@@ -140,14 +154,16 @@ public class Game implements Initializable {
         board = new int[BOARD_HEIGHT][BOARD_WITH];
         shape = getShape(board[0].length);
         nextShape = getShape(board[0].length);
-        drawBoard();
         drawPreview();
         gameOverText.setText("");
         continueText.setText("");
+        getGame().transitionGOTitle.stop();
+        getGame().transitionGOText.stop();
         getGame().level.setText("1");
         getGame().score.setText("0");
         isFinished = false;
         isPaused = false;
+        drawBoard();
     }
 
     public static boolean moveByKey(int[] dir) {
@@ -179,6 +195,22 @@ public class Game implements Initializable {
         isFinished = true;
         displayEndGameTitle();
         displayEndGameText();
+        getGame().gameOverDialog();
+        drawGameOverBackground();
+
+    }
+
+    private void gameOverDialog() {
+        transitionGOTitle = new FadeTransition(Duration.millis(700), gameOverText);
+        transitionGOTitle.setFromValue(1.0);
+        transitionGOTitle.setToValue(0.0);
+        transitionGOTitle.setCycleCount(Animation.INDEFINITE);
+        transitionGOTitle.play();
+        transitionGOText = new FadeTransition(Duration.millis(700), continueText);
+        transitionGOText.setFromValue(1.0);
+        transitionGOText.setToValue(0.0);
+        transitionGOText.setCycleCount(Animation.INDEFINITE);
+        transitionGOText.play();
     }
 
     private static void displayEndGameTitle() {
@@ -231,6 +263,11 @@ public class Game implements Initializable {
         drawPreview();
     }
 
+    private static void drawGameOverBackground() {
+        context.setFill(COLOR_MODE.appBackground);
+        context.fillRect(0, 150, WIDTH, 110);
+    }
+
     private static void drawBackground() {
         context.setFill(COLOR_MODE.backgroundColor);
         context.fillRect(CELL_PADDING*3, PADDING_VERTICAL - CELL_PADDING*3, WIDTH-PADDING_HORIZONTAL, HEIGHT-(PADDING_VERTICAL*2)+CELL_PADDING*6);
@@ -239,14 +276,18 @@ public class Game implements Initializable {
     private static void drawPreviewBackground() {
         previewContext.setFill(COLOR_MODE.backgroundColor);
         previewContext.fillRect(CELL_PADDING*3, PADDING_VERTICAL - CELL_PADDING*3, PREVIEW_WIDTH-PADDING_HORIZONTAL, PREVIEW_HEIGHT-(PADDING_VERTICAL*2)+CELL_PADDING*6);
+        previewContext.setFill(COLOR_MODE.appBackground);
+        previewContext.fillRect(CELL_PADDING*3+5, PADDING_VERTICAL - CELL_PADDING*3+5, PREVIEW_WIDTH-PADDING_HORIZONTAL-10, PREVIEW_HEIGHT-(PADDING_VERTICAL*2)+CELL_PADDING*6-10);
     }
 
     private static void drawBoard() {
-        context.clearRect(0, 0, WIDTH, HEIGHT);
-        drawBackground();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                drawCellAt(context, i, j, board[i][j], new int[]{0, 0});
+        if (!isFinished) {
+            context.clearRect(0, 0, WIDTH, HEIGHT);
+            drawBackground();
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    drawCellAt(context, i, j, board[i][j], new int[]{0, 0}, false);
+                }
             }
         }
     }
@@ -258,27 +299,34 @@ public class Game implements Initializable {
         int height = getMinMaxHeight(previewShape)[1]+1;
         int width = getMinMaxWidth(previewShape)[1]+1;
         int[] offset = new int[2];
-        offset[0] = (PREVIEW_HEIGHT - (2* PADDING_VERTICAL) - (CELL_H*height))/2;
-        offset[1] = (PREVIEW_WIDTH - (2* PADDING_HORIZONTAL) - (CELL_W*width))/2;
+        int cell_h = BLOCK_COUNT > 5 ? (CELL_H*5/BLOCK_COUNT*2) : CELL_H;
+        int cell_w = BLOCK_COUNT > 5 ? (CELL_W*5/BLOCK_COUNT*2) : CELL_W;
+        offset[0] = (PREVIEW_HEIGHT - (2* PADDING_VERTICAL) - (cell_h*height))/2;
+        offset[1] = (PREVIEW_WIDTH - (2* PADDING_HORIZONTAL) - (cell_w*width))/2;
         for (int i = 0; i < previewShape.length; i++) {
-            drawCellAt(previewContext, previewShape[i][0], previewShape[i][1], 1, offset);
+            drawCellAt(previewContext, previewShape[i][0], previewShape[i][1], 2, offset, true);
         }
     }
 
-    private static void drawCellAt(GraphicsContext context, int height, int width, int visibility, int[] offset) {
+    private static void drawCellAt(GraphicsContext context, int height, int width, int visibility, int[] offset, boolean isPreview) {
         Color color;
         if (visibility != 0) {
 
-            if (visibility > 0) {
+            if (visibility == 2) {
+                color = COLOR_MODE.preview;
+            } else if (visibility == 1) {
                 color = COLOR_MODE.shape;
             } else {
                 color = COLOR_MODE.activeShape;
             }
 
-            int h = height * CELL_H + PADDING_VERTICAL + offset[0];
-            int w = width * CELL_W + PADDING_HORIZONTAL + offset[1];
-            int ch = CELL_H - CELL_PADDING;
-            int cw = CELL_W - CELL_PADDING;
+            int cell_h = isPreview && BLOCK_COUNT > 5 ? (CELL_H*5/BLOCK_COUNT*2) : CELL_H;
+            int cell_w = isPreview && BLOCK_COUNT > 5 ? (CELL_W*5/BLOCK_COUNT*2) : CELL_W;
+
+            int h = height * cell_h + PADDING_VERTICAL + offset[0];
+            int w = width * cell_w + PADDING_HORIZONTAL + offset[1];
+            int ch = cell_h - CELL_PADDING;
+            int cw = cell_w - CELL_PADDING;
 
             context.setFill(color.darker());
             context.fillRoundRect(w, h, cw, ch, 10, 10);

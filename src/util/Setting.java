@@ -9,4 +9,5 @@ public class Setting {
     public static int DELAY = 500;
 
     public static ColorScheme COLOR_MODE = ColorScheme.LIGHT_MODE;
+    //public static ColorScheme COLOR_MODE = ColorScheme.DARK_MODE;
 }

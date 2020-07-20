@@ -13,7 +13,7 @@
    <children>
       <Pane fx:id="gamePane" prefHeight="600.0" prefWidth="300.0" />
 
-      <VBox fx:id="rightBox" alignment="CENTER" prefHeight="600.0" prefWidth="200.0">
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="200.0">
          <children>
             <Label fx:id="scoreLabel" text="POINTS:" />
             <Label fx:id="score" text="0">
@@ -31,7 +31,7 @@
             <Region prefHeight="24.0" prefWidth="200.0" />
             <Label fx:id="pausedLabel" text="">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Courier New" size="18.0" />
                </font>
             </Label>
          </children>

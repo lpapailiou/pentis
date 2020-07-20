@@ -3,8 +3,6 @@ package util;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.util.Arrays;
-
 public class KeyParser {
 
     public static int[] handleKeyPress(KeyEvent e) {

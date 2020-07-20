@@ -3,7 +3,6 @@ package application;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import util.KeyParser;
-
 import static application.Game.getGame;
 import static util.Setting.COLOR_MODE;
 import static util.Setting.DELAY;
@@ -36,6 +34,8 @@ public class Pentis extends Application {
             stage.setScene(scene);
             stage.setMinHeight(539);
             stage.setMinWidth(538);
+            stage.setMaxHeight(539);
+            stage.setMaxWidth(538);
             stage.setTitle("Pentis");
             stage.getIcons().add(new Image("resources/pentis.png"));
             stage.show();

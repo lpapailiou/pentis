@@ -1,9 +1,6 @@
 package logic;
 
-import application.Game;
-
 import java.util.Arrays;
-
 import static application.Game.*;
 import static logic.Shape.copy;
 
