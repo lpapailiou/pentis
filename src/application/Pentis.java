@@ -72,14 +72,17 @@ public class Pentis extends Application {
 
     private void setUpTimer() {
         timeline = new Timeline(new KeyFrame(Duration.millis(DELAY),  event -> {
-            Game.moveByKey(new int[]{1, 0});
-            counter++;
-            if (counter == counterLimit) {
-                getGame().updateLevel();
-                counter = 0;
-                counterLimit = counterLimit + 10;
-                if (timeline != null) {
-                    timeline.setRate(timeline.getRate()+0.05);
+            Game game = getGame();
+            if (game != null && !game.isPaused && !game.isFinished) {
+                Game.moveByKey(new int[]{1, 0});
+                counter++;
+                if (counter == counterLimit) {
+                    getGame().updateLevel();
+                    counter = 0;
+                    counterLimit = counterLimit + 10;
+                    if (timeline != null) {
+                        timeline.setRate(timeline.getRate() + 0.05);
+                    }
                 }
             }
         }));

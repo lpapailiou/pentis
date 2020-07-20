@@ -43,8 +43,8 @@ public class Game implements Initializable {
     private static int[][] nextShape = getShape(board[0].length);
     private static GraphicsContext context;
     private static GraphicsContext previewContext;
-    private static boolean isPaused = true;
-    private static boolean isFinished = false;
+    public static boolean isPaused = true;
+    public static boolean isFinished = false;
 
     private static Text gameOverText = null;
     private static Text continueText = null;

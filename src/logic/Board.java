@@ -137,8 +137,4 @@ public class Board {
         getGame().updatePoints();
     }
 
-    public static void reset(int board[][]) {
-        board = new int[board.length][board[0].length];
-    }
-
 }
