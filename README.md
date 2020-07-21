@@ -17,7 +17,7 @@ A game like __tetris__, but with five blocks instead of four per figure.
 		4.2.3 [Execute Jar](#execute-jar)  
 		
 ## About the game
-![screenshot of pentis](https://github.com/lpapailiou/pentis/tree/master/src/main/resources/pentis_screenshot.png)
+![screenshot of pentis](https://github.com/lpapailiou/pentis/blob/master/src/main/resources/pentis_screenshot.png)
 
 The game is purely controlled by the keyboard.
 * __arrow left__: moves a shape one block distance to the left
