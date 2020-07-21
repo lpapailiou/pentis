@@ -178,7 +178,7 @@ public class Game implements Initializable {
         if (!isPaused && !isFinished) {
             boolean canMove = false;
             if (Arrays.equals(dir, new int[]{0, 0})) {
-                int[][] rotatedShape = getRotateShape(shape);
+                int[][] rotatedShape = getRotatedShape(shape);
                 canMove = Board.moveShape(board, rotatedShape, dir);
                 if (canMove) {
                     shape = rotatedShape;
@@ -303,8 +303,8 @@ public class Game implements Initializable {
         previewContext.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
         drawPreviewBackground();
         int[][] previewShape = getPreviewShape(nextShape);
-        int height = getMinMaxHeight(previewShape)[1]+1;
-        int width = getMinMaxWidth(previewShape)[1]+1;
+        int height = getMinMaxDimension(previewShape, 0)[1]+1;
+        int width = getMinMaxDimension(previewShape, 1)[1]+1;
         int[] offset = new int[2];
         int cell_h = BLOCK_COUNT > 5 ? (CELL_H*5/BLOCK_COUNT*2) : CELL_H;
         int cell_w = BLOCK_COUNT > 5 ? (CELL_W*5/BLOCK_COUNT*2) : CELL_W;

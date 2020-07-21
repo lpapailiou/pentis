@@ -5,6 +5,7 @@ import java.util.Arrays;
 import static application.Game.endGame;
 import static application.Game.getGame;
 import static logic.ShapeGenerator.copy;
+import static logic.ShapeGenerator.moveShapeBy;
 
 public class Board {
 
@@ -17,9 +18,7 @@ public class Board {
         int[][] oldBoard = copy(board);
         int[][] oldShape = copy(shape);
 
-        for (int i = 0; i < shape.length; i++) {
-            shape[i] = new int[]{shape[i][0] + direction[0], shape[i][1] + direction[1]};
-        }
+        moveShapeBy(shape, direction);
 
         boolean canMove = true;
         boolean isStuck = false;
@@ -71,7 +70,7 @@ public class Board {
     }
 
     public static void move(int[][] board, int[] target) {
-        if (target[0] >= 0 && target[1] >= 0 && board[target[0]][target[1]] != 1) {
+        if (target[0] >= 0 && target[1] >= 0 && target[0] < board.length  && target[1] < board[0].length && board[target[0]][target[1]] != 1) {
             board[target[0]][target[1]] = -1;
         }
     }
@@ -91,15 +90,7 @@ public class Board {
         return true;
     }
 
-    public static void print(int[][] board) {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                System.out.print(board[i][j] + "\t");
-            }
-            System.out.println();
-        }
-        System.out.print("\n\n");
-    }
+
 
     public static void stateCheck(int[][] board) {
         for (int i = 0; i < board.length; i++) {
@@ -119,6 +110,8 @@ public class Board {
         return false;
     }
 
+    // ---------------------------------- REMOVE FULL ROW ----------------------------------
+
     private static boolean isRowFull(int[] row) {
         for (int cell: row) {
             if (cell == 0) {
@@ -137,6 +130,18 @@ public class Board {
             }
         }
         getGame().updatePoints();
+    }
+
+    // ---------------------------------- PRINT TO CONSOLE ----------------------------------
+
+    public static void print(int[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                System.out.print(board[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        System.out.print("\n\n");
     }
 
 }
