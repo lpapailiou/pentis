@@ -1,10 +1,13 @@
-package test.application;
+package logic;
 
 
 import org.junit.Test;
 
 import java.util.Arrays;
 
+import static logic.Board.*;
+import static logic.ShapeGenerator.getRotatedShape;
+import static logic.ShapeGenerator.getShape;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -53,16 +56,16 @@ public class BoardTest {
             moveShape(testBoard, shape, dirDown);
         }
         print(testBoard);
-        shape = getRotateShape(shape);
+        shape = getRotatedShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotateShape(shape);
+        shape = getRotatedShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotateShape(shape);
+        shape = getRotatedShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotateShape(shape);
+        shape = getRotatedShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
     }
