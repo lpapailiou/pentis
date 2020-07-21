@@ -37,7 +37,7 @@ This project ist mainly for playing around with Java. I tried to use as basic st
 
 * ``application``         this package contains the main method (in ``Pentis.java``), and gui related code
 * ``logic``               here most part of the game logic is in
-* ``util``                helper classes
+* ``util``                helper classes
 
 ## How to get it
 
@@ -45,7 +45,7 @@ Clone the repository with:
 
     git clone https://github.com/lpapailiou/pentis your-target-path
 
-Originally, the project was developed with IDE. It also runs with Eclipse.
+Originally, the project was developed with the Intellij IDE. It also runs with Eclipse.
 
 ### How to import it to Intellij IDE
 1. Go to ``File > New``
