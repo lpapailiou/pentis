@@ -18,13 +18,13 @@ public class ShapeGenerator {
     }
 
     public static int[][] getPreviewShape(int[][] shape) {
-        int[][] copyShape = copy(shape);
+        int[][] copyShape = getCopyOfShape(shape);
         setToPreviewPosition(copyShape);
         return copyShape;
     }
 
     public static int[][] getRotatedShape(int[][] shape) {
-        int[][] rotatedShape = copy(shape);
+        int[][] rotatedShape = getCopyOfShape(shape);
 
         int[] minMaxHeight = getMinMaxDimension(shape, 0);
         int[] minMaxWidht = getMinMaxDimension(shape, 1);
@@ -130,8 +130,15 @@ public class ShapeGenerator {
 
     // ---------------------------------- HELPER METHODS ----------------------------------
 
-    public static int[][] copy(int[][] shape) {
+    public static int[][] getCopyOfShape(int[][] shape) {
         return Arrays.stream(shape).map(int[]::clone).toArray(int[][]::new);
+    }
+
+    public static void replaceShape(int[][] shape, int[][] resettingShape) {
+        for (int i = 0; i < shape.length; i++) {
+            shape[i][0] = resettingShape[i][0];
+            shape[i][1] = resettingShape[i][1];
+        }
     }
 
     public static int[] getMinMaxDimension(int[][] shape, int dimension) {

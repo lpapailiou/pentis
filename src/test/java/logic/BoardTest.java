@@ -115,7 +115,7 @@ public class BoardTest {
 
         print(testBoard);
 
-        stateCheck(testBoard);
+        fullRowCheck(testBoard);
 
         print(testBoard);
 

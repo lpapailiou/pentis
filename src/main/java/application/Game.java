@@ -265,7 +265,7 @@ public class Game implements Initializable {
     }
 
     private static void prepareNewShape() {
-        shape = copy(nextShape);
+        shape = getCopyOfShape(nextShape);
         nextShape = getShape(board[0].length);
         drawPreview();
     }
