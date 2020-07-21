@@ -4,7 +4,7 @@ A game like __tetris__, but with five blocks instead of four per figure.
 
 ## Table of Contents
 1. [About the game](#about-the-game)  
-2. [Thoughts about this project](#thoughts-about-this-project) 
+2. [Purpose of this project](#purpose-of-this-project) 
 2. [Project structure](#project-structure)  
 3. [How to get it](#how-to-get-it)  
 	3.1 [How to import it to Intellij IDE](#how-to-import-it-to-intellij-ide)   
