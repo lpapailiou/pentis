@@ -1,6 +1,6 @@
 # pentis
 
-A game like __tetris__, but with five blocks instead of four per figure.
+A game like __tetris__, but with five blocks instead of four per shape by default.  
 
 ## Table of Contents
 1. [About the game](#about-the-game)  
