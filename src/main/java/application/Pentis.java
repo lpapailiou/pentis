@@ -45,7 +45,6 @@ public class Pentis extends Application {
 
             setUpKeyParser(scene);
             setUpTimer();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
