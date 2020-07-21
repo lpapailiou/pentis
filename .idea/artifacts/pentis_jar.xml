@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pentis:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pentis_jar</output-path>
+    <root id="archive" name="pentis.jar">
+      <element id="module-output" name="pentis" />
+    </root>
+  </artifact>
+</component>
