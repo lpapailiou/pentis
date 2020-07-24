@@ -77,7 +77,7 @@ To fix it, do following steps:
 6. Run the game again
 
 ### From a Jar file
-You can download the Jar file directly from the [artifacts folder](https://github.com/lpapailiou/pentis/tree/master/out/artifacts/pentis_jar). Alternatively, you can build it yourself.
+You can download the Jar file directly from the [latest release](https://github.com/lpapailiou/pentis/releases/tag/v1.0). Alternatively, you can build it yourself.
 
 #### Build Jar in Intellij IDE 
 1. Go to ``File > Project Structure...``
