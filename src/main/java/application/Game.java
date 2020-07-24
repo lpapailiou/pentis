@@ -7,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -65,8 +64,8 @@ public class Game implements Initializable {
     private FadeTransition transitionGameOverTitle = null;
     private FadeTransition transitionGameOverText = null;
 
-    static boolean isPaused = true;
-    static boolean isFinished = false;
+    private static boolean isPaused = true;
+    private static boolean isFinished = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -183,7 +182,7 @@ public class Game implements Initializable {
 
     // ---------------------------------- GAME ACTION HANDLING ----------------------------------
 
-    void updateLevel() {
+    private void updateLevel() {
         int value = Integer.parseInt(level.getText());
         value++;
         level.setText(""+value);
@@ -253,8 +252,8 @@ public class Game implements Initializable {
         int cell_w = BLOCK_COUNT > 5 ? (CELL_W*5/BLOCK_COUNT*2) : CELL_W;
         offset[0] = (PREVIEW_HEIGHT - (2* PADDING_VERTICAL) - (cell_h*height))/2;
         offset[1] = (PREVIEW_WIDTH - (2* PADDING_HORIZONTAL) - (cell_w*width))/2;
-        for (int i = 0; i < previewShape.length; i++) {
-            drawCellAt(previewContext, previewShape[i][0], previewShape[i][1], 2, offset, true);
+        for (int[] block : previewShape) {
+            drawCellAt(previewContext, block[0], block[1], 2, offset, true);
         }
     }
 
@@ -294,9 +293,9 @@ public class Game implements Initializable {
 
     private static void drawPreviewBackground() {
         previewContext.setFill(COLOR_MODE.backgroundColor);
-        previewContext.fillRect(CELL_PADDING*3, PADDING_VERTICAL - CELL_PADDING*3, PREVIEW_WIDTH-PADDING_HORIZONTAL, PREVIEW_HEIGHT-(PADDING_VERTICAL*2)+CELL_PADDING*6);
+        previewContext.fillRect(CELL_PADDING*3, 20 - CELL_PADDING*3, PREVIEW_WIDTH-20, PREVIEW_HEIGHT-(40)+CELL_PADDING*6);
         previewContext.setFill(COLOR_MODE.appBackground);
-        previewContext.fillRect(CELL_PADDING*3+5, PADDING_VERTICAL - CELL_PADDING*3+5, PREVIEW_WIDTH-PADDING_HORIZONTAL-10, PREVIEW_HEIGHT-(PADDING_VERTICAL*2)+CELL_PADDING*6-10);
+        previewContext.fillRect(CELL_PADDING*3+5, 20 - CELL_PADDING*3+5, PREVIEW_WIDTH-30, PREVIEW_HEIGHT-(40)+CELL_PADDING*6-10);
     }
 
     private static void drawGameOverBackground() {

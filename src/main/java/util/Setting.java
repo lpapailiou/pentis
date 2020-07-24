@@ -2,14 +2,13 @@ package util;
 
 public class Setting {
 
-    public static final int BLOCK_COUNT = 5;
-    public static final int BOARD_HEIGHT = 17;
-    public static final int BOARD_WITH = 10;
+    public static final int BLOCK_COUNT = 5;            //  this parameter may be changed in the code; default = 5
+    public static final int BOARD_HEIGHT = 17;          //  this parameter may be changed in the code; default = 17
+    public static final int BOARD_WITH = 10;            //  this parameter may be changed in the code; default = 10
 
     public static final int DELAY = 500;
 
     public static ColorScheme COLOR_MODE = ColorScheme.LIGHT_MODE;
-    //public static final ColorScheme COLOR_MODE = ColorScheme.DARK_MODE;
 
     public static final int HEIGHT = 500;
     public static final int WIDTH = 300;
@@ -28,6 +27,7 @@ public class Setting {
         if (CELL_H < CELL_W) {
             CELL_W = CELL_H;
             PADDING_HORIZONTAL = (WIDTH - (CELL_H * BOARD_WITH)) / 2;
+
         } else if (CELL_H > CELL_W) {
             CELL_H = CELL_W;
             PADDING_VERTICAL = (HEIGHT - (CELL_W * BOARD_HEIGHT)) / 2;
