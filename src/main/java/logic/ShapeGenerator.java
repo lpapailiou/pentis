@@ -9,6 +9,8 @@ public class ShapeGenerator {
 
     private static Random random = new Random();
 
+    private ShapeGenerator() {}
+
     // ---------------------------------- GET SHAPE ----------------------------------
 
     static int[][] getShape(int boardWith) {

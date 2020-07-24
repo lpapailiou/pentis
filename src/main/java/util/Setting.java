@@ -33,4 +33,6 @@ public class Setting {
             PADDING_VERTICAL = (HEIGHT - (CELL_W * BOARD_HEIGHT)) / 2;
         }
     }
+
+    private Setting() {}
 }

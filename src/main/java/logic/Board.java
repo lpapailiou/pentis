@@ -11,7 +11,9 @@ public class Board {
     public static int[][] shape = getShape(board[0].length);
     public static int[][] nextShape = getShape(board[0].length);
 
-    public static boolean moveShape(int[][] board, int[][] shape, int direction[]) {
+    private Board() {}
+
+    public static boolean moveShape(int[][] board, int[][] shape, int[] direction) {
         if (isGameOver(board)) {
             return true;
         }

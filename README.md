@@ -29,6 +29,12 @@ The game is purely controlled by the keyboard.
 * __y__ or __enter__: when a game over occurs, a new game will be started by pressing these keys		
 * __n__: when a game over occurs, the application can be left with this key		
 * __m__: switch color mode		
+  
+Every time the level increases, speed will also increase a little. 
+The shapes are generated on the fly, so the blocks will 'cluster'. This means, that it is more likely that compact 
+shapes appear.  
+If you want to get the game more annoying, you can add more blocks in the ``Settings`` class (which is located in the ``util`` 
+package). There, also the board size (default 17x10 blocks) may be adjusted.
 
 ## Purpose of this project
 This project ist mainly for playing around with Java. I tried to use as basic structures as possible 
