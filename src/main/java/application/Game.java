@@ -196,7 +196,7 @@ public class Game implements Initializable {
 
     public static void endGame() {
         isFinished = true;
-        getGame().startGameOverAnimation();
+        instance.startGameOverAnimation();
     }
 
     // ---------------------------------- GAME OVER DIALOG HANDLING ----------------------------------
@@ -221,10 +221,10 @@ public class Game implements Initializable {
     private void stopGameOverAnimation() {
         gameOverTitle.setText("");
         gameOverText.setText("");
-        getGame().transitionGameOverTitle.stop();
-        getGame().transitionGameOverText.stop();
-        getGame().level.setText("1");
-        getGame().score.setText("0");
+        instance.transitionGameOverTitle.stop();
+        instance.transitionGameOverText.stop();
+        instance.level.setText("1");
+        instance.score.setText("0");
     }
 
     // ---------------------------------- DRAW HANDLING ----------------------------------
@@ -320,7 +320,7 @@ public class Game implements Initializable {
         resetTimeline();
         resetBoard();
         drawPreview();
-        getGame().stopGameOverAnimation();
+        instance.stopGameOverAnimation();
         isFinished = false;
         isPaused = false;
         drawBoard();
