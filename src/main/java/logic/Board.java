@@ -1,18 +1,22 @@
 package logic;
 
-import java.util.Arrays;
-
-import static application.Game.endGame;
-import static application.Game.getGame;
+import static application.Game.*;
 import static logic.ShapeGenerator.*;
+import static util.Setting.BOARD_HEIGHT;
+import static util.Setting.BOARD_WITH;
 
 public class Board {
 
+    public static int[][] board = new int[BOARD_HEIGHT][BOARD_WITH];
+    public static int[][] shape = getShape(board[0].length);
+    public static int[][] nextShape = getShape(board[0].length);
+
     public static boolean moveShape(int[][] board, int[][] shape, int direction[]) {
         if (isGameOver(board)) {
-            return false;
+            return true;
         }
         int[][] oldShape = getCopyOfShape(shape);
+
         boolean canMove = true;
         boolean isStuck = false;
 
@@ -31,25 +35,23 @@ public class Board {
             setActiveShapeOnBoard(board, shape);
         } else {
             replaceShape(shape, oldShape);
-            if (Arrays.equals(direction, new int[2])) {
-                return false;
-            }
             if (isStuck) {
                 setShapePermanently(board, shape);
                 fullRowCheck(board);
-                return false;
+                setNextShape();
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     // ---------------------------------- SHAPE HANDLING ----------------------------------
 
     private static void setActiveShapeOnBoard(int[][] board, int[][] shape) {
         removeActiveShapeFromBoard(board);
-        for (int i = 0; i < shape.length; i++) {
-            if (shape[i][0] >= 0 ) {
-                board[shape[i][0]][shape[i][1]] = -1;
+        for (int[] block : shape) {
+            if (block[0] >= 0) {
+                board[block[0]][block[1]] = -1;
             }
         }
     }
@@ -102,7 +104,19 @@ public class Board {
         getGame().updatePoints();
     }
 
-    // ---------------------------------- STATE CHECKS ----------------------------------
+    // ---------------------------------- STATE HANDLING ----------------------------------
+
+    public static void resetBoard() {
+        board = new int[BOARD_HEIGHT][BOARD_WITH];
+        shape = getShape(board[0].length);
+        nextShape = getShape(board[0].length);
+    }
+
+    private static void setNextShape() {
+        shape = getCopyOfShape(nextShape);
+        nextShape = getShape(board[0].length);
+        drawPreview();
+    }
 
     private static boolean isGameOver(int[][] board) {
         for (int i = 0; i < board[0].length; i++) {
@@ -123,10 +137,7 @@ public class Board {
             return false;
         } else if (target[1] >= board[0].length) {
             return false;
-        } else if (target[0] >= 0 && board[target[0]][target[1]] == 1) {
-            return false;
-        }
-        return true;
+        } else return target[0] < 0 || board[target[0]][target[1]] != 1;
     }
 
     // ---------------------------------- HELPER METHODS ----------------------------------

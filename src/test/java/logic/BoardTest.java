@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static logic.Board.*;
-import static logic.ShapeGenerator.getRotatedShape;
 import static logic.ShapeGenerator.getShape;
+import static logic.ShapeGenerator.rotateShape;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -56,16 +56,16 @@ public class BoardTest {
             moveShape(testBoard, shape, dirDown);
         }
         print(testBoard);
-        shape = getRotatedShape(shape);
+        rotateShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotatedShape(shape);
+        rotateShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotatedShape(shape);
+        rotateShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
-        shape = getRotatedShape(shape);
+        rotateShape(shape);
         moveShape(testBoard, shape, dirNone);
         print(testBoard);
     }

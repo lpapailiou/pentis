@@ -4,3 +4,15 @@
     -fx-font-weight: bold;
     -fx-background-color: transparent;
 }
+
+#score, #level, #pausedLabel {
+    -fx-font-size: 20pt;
+}
+
+#gameOverTitle {
+    -fx-font-size: 28pt;
+}
+
+#gameOverText {
+    -fx-font-size: 18pt;
+}

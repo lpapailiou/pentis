@@ -1,0 +1,15 @@
+# Default ignored files
+/workspace.xml
+
+# inteelij filter
+*.iml
+/.idea/
+/out/
+/target/
+
+# eclipse filter
+/.settings/
+/bin/
+/classes/
+*.classpath
+*.project

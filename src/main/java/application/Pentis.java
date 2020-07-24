@@ -1,7 +1,5 @@
 package application;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,18 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import util.KeyParser;
 
 import static application.Game.getGame;
 import static util.Setting.COLOR_MODE;
-import static util.Setting.DELAY;
 
 public class Pentis extends Application {
-
-    private static int counterLimit = 10;
-    private static int counter;
-    private static Timeline timeline;
 
     public static void main(String[] args) {
         launch(args);
@@ -42,9 +34,8 @@ public class Pentis extends Application {
             stage.setTitle("Pentis");
             stage.getIcons().add(new Image("pentis.png"));
             stage.show();
-
             setUpKeyParser(scene);
-            setUpTimer();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,37 +55,12 @@ public class Pentis extends Application {
                     Game.handleNewGame(true);
                 } else if (result[1] == 3) {
                     Game.handleNewGame(false);
+                } else if (result[1] == 4) {
+                    Game.switchMode();
                 }
             }
             e.consume();
         });
     }
-
-    private void setUpTimer() {
-        timeline = new Timeline(new KeyFrame(Duration.millis(DELAY),  event -> {
-            Game game = getGame();
-            if (game != null && !game.isPaused && !game.isFinished) {
-                Game.moveByKey(new int[]{1, 0});
-                counter++;
-                if (counter == counterLimit) {
-                    getGame().updateLevel();
-                    counter = 0;
-                    counterLimit = counterLimit + 10;
-                    if (timeline != null) {
-                        timeline.setRate(timeline.getRate() + 0.05);
-                    }
-                }
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-
-    public static void resetTimeline() {
-        timeline.setRate(1.0);
-        counterLimit = 10;
-        counter = 0;
-    }
-
 
 }

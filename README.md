@@ -28,6 +28,7 @@ The game is purely controlled by the keyboard.
 * __p__: pauses game		
 * __y__ or __enter__: when a game over occurs, a new game will be started by pressing these keys		
 * __n__: when a game over occurs, the application can be left with this key		
+* __m__: switch color mode		
 
 ## Purpose of this project
 This project ist mainly for playing around with Java. I tried to use as basic structures as possible 

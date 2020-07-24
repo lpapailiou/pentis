@@ -34,6 +34,9 @@ public class KeyParser {
             case N:
                 dir = new int[] {-9, 3};
                 break;
+            case M:
+                dir = new int[] {-9, 4};
+                break;
         }
         return dir;
     }

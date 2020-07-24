@@ -11,7 +11,7 @@ public class ShapeGenerator {
 
     // ---------------------------------- GET SHAPE ----------------------------------
 
-    public static int[][] getShape(int boardWith) {
+    static int[][] getShape(int boardWith) {
         int[][] shape = createShape();
         setToInitialPosition(shape, boardWith);
         return shape;
@@ -21,18 +21,6 @@ public class ShapeGenerator {
         int[][] copyShape = getCopyOfShape(shape);
         setToPreviewPosition(copyShape);
         return copyShape;
-    }
-
-    public static int[][] getRotatedShape(int[][] shape) {
-        int[][] rotatedShape = getCopyOfShape(shape);
-
-        int[] minMaxHeight = getMinMaxDimension(shape, 0);
-        int[] minMaxWidht = getMinMaxDimension(shape, 1);
-        int offsetHeight = minMaxHeight[0] + ((minMaxHeight[1]-minMaxHeight[0]) / 2);
-        int offsetWidth = minMaxWidht[0] + ((minMaxWidht[1]-minMaxWidht[0]) / 2);
-
-        rotateClockwise(rotatedShape, offsetHeight, offsetWidth);
-        return rotatedShape;
     }
 
     // ---------------------------------- CREATE SHAPE ----------------------------------
@@ -72,9 +60,9 @@ public class ShapeGenerator {
         return newBlock;
     }
 
-    private static boolean blockExists(int shape[][], int[] block) {
-        for (int i = 0; i < shape.length; i++) {
-            if (shape[i][0] == block[0] && shape[i][1] == block[1]) {
+    private static boolean blockExists(int[][] shape, int[] compareBlock) {
+        for (int[] block : shape) {
+            if (block[0] == compareBlock[0] && block[1] == compareBlock[1]) {
                 return true;
             }
         }
@@ -83,10 +71,14 @@ public class ShapeGenerator {
 
     // ---------------------------------- SHAPE POSITIONING ----------------------------------
 
-    public static void moveShapeBy(int[][] shape, int[] direction) {
-        for (int i = 0; i < shape.length; i++) {
-            shape[i][0] = shape[i][0] + direction[0];
-            shape[i][1] = shape[i][1] + direction[1];
+    static void moveShapeBy(int[][] shape, int[] direction) {
+        if (Arrays.equals(direction, new int[2])) {
+            rotateShape(shape);
+        } else {
+            for (int i = 0; i < shape.length; i++) {
+                shape[i][0] = shape[i][0] + direction[0];
+                shape[i][1] = shape[i][1] + direction[1];
+            }
         }
     }
 
@@ -117,6 +109,14 @@ public class ShapeGenerator {
         }
     }
 
+    static void rotateShape(int[][] shape) {
+        int[] minMaxHeight = getMinMaxDimension(shape, 0);
+        int[] minMaxWidht = getMinMaxDimension(shape, 1);
+        int offsetHeight = minMaxHeight[0] + ((minMaxHeight[1]-minMaxHeight[0]) / 2);
+        int offsetWidth = minMaxWidht[0] + ((minMaxWidht[1]-minMaxWidht[0]) / 2);
+        rotateClockwise(shape, offsetHeight, offsetWidth);
+    }
+
     private static void rotateClockwise(int[][] shape, int offsetHeight, int offsetWidth) {
         for (int i = 0; i < shape.length; i++) {
             int offH = offsetHeight - shape[i][0];
@@ -130,11 +130,11 @@ public class ShapeGenerator {
 
     // ---------------------------------- HELPER METHODS ----------------------------------
 
-    public static int[][] getCopyOfShape(int[][] shape) {
+    static int[][] getCopyOfShape(int[][] shape) {
         return Arrays.stream(shape).map(int[]::clone).toArray(int[][]::new);
     }
 
-    public static void replaceShape(int[][] shape, int[][] resettingShape) {
+    static void replaceShape(int[][] shape, int[][] resettingShape) {
         for (int i = 0; i < shape.length; i++) {
             shape[i][0] = resettingShape[i][0];
             shape[i][1] = resettingShape[i][1];
@@ -146,12 +146,12 @@ public class ShapeGenerator {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
 
-        for (int i = 0; i < shape.length; i++) {
-            if (shape[i][dimension] < min) {
-                min = shape[i][dimension];
+        for (int[] block : shape) {
+            if (block[dimension] < min) {
+                min = block[dimension];
             }
-            if (shape[i][dimension] > max) {
-                max = shape[i][dimension];
+            if (block[dimension] > max) {
+                max = block[dimension];
             }
         }
 
