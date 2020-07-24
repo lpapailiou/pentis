@@ -35,7 +35,6 @@ public class Pentis extends Application {
             stage.getIcons().add(new Image("pentis.png"));
             stage.show();
             setUpKeyParser(scene);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
