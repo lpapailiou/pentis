@@ -46,6 +46,3 @@ Clone the repository with:
 
 For further help, click [here](https://gist.github.com/lpapailiou/d4d63338ccb1413363970ac571aa71c9).
 
-    java -jar pentis.jar
-    
-Please make sure you execute it from the correct directory. The naming of the Jar file may vary.
